@@ -57,6 +57,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     image_url: {
       type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull : {
+          msg: 'Image url is required'
+        },
+        notEmpty: {
+          msg: 'Image url is required'
+        }
+      }
     },
     UserId: {
       type: DataTypes.INTEGER
@@ -65,7 +74,7 @@ module.exports = (sequelize, DataTypes) => {
   {
     hooks:{
       beforeSave(product, options) {
-        if(product.category === '' || product.category === null) {
+        if(!product.category) {
           product.category = 'other'
         }
       }
