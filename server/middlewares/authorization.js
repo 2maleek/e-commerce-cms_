@@ -11,7 +11,7 @@ module.exports = (req, res, next) => {
     if(!isFound) {
       throw {status: 404, message: 'Product not found'}
     }
-    if(UserId !== isFound.UserId && roles !== 'superadmin') {
+    if(UserId !== isFound.UserId && roles !== 'superAdmin') {
       throw {status: 403, message: 'Forbidden access'}
     }
     next()
