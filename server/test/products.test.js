@@ -428,7 +428,7 @@ describe('Prouducts Routes Test', () => {
       }
       request(app)
         .put(`/products/${otherIdProduct}`)
-        .set('access_token', access_token)
+        .set('access_token', access_token_superadmin)
         .send(data)
         .then(response => {
           const { body, status } = response;
@@ -441,7 +441,7 @@ describe('Prouducts Routes Test', () => {
           expect(body).toHaveProperty('price', data.price);
           expect(body).toHaveProperty('stock', data.stock);
           expect(body).toHaveProperty('image_url', data.image_url);
-          expect(body).toHaveProperty('UserId', UserId);
+          expect(body).toHaveProperty('UserId', 1);
           done();
         })
         .catch(err => {
@@ -548,34 +548,11 @@ describe('Prouducts Routes Test', () => {
 
   })
 
+
   describe('Delete product', () => {
     test(`Delete product with token`, function (done) {
       request(app)
         .delete(`/products/${idProduct}`)
-        .set('access_token', access_token)
-        .then(response => {
-          const { body, status } = response;
-
-          expect(status).toBe(200);
-          expect(body).toHaveProperty('id', expect.any(Number));
-          expect(body).toHaveProperty('name', expect.any(String));
-          expect(body).toHaveProperty('description', expect.any(String));
-          expect(body).toHaveProperty('category', expect.any(String));
-          expect(body).toHaveProperty('price', expect.any(Number));
-          expect(body).toHaveProperty('stock', expect.any(Number));
-          expect(body).toHaveProperty('image_url', expect.any(String));
-          expect(body).toHaveProperty('UserId', expect.any(Number));
-          done();
-        })
-        .catch(err => {
-          done(err)
-        });
-    }, 50000)
-
-    //superAdmin can delete product without authorization
-    test(`superadmin delete product with token without authorization`, function (done) {
-      request(app)
-        .delete(`/products/${otherIdProduct}`)
         .set('access_token', access_token)
         .then(response => {
           const { body, status } = response;
@@ -658,4 +635,32 @@ describe('Prouducts Routes Test', () => {
     }, 50000)
 
   })
+
+  describe('User admin can delete all product without authorization', () => {
+    //superAdmin can delete product without authorization
+    test(`superadmin delete product with token without authorization`, function (done) {
+      request(app)
+        .delete(`/products/${otherIdProduct}`)
+        .set('access_token', access_token_superadmin)
+        .then(response => {
+          const { body, status } = response;
+
+          expect(status).toBe(200);
+          expect(body).toHaveProperty('id', expect.any(Number));
+          expect(body).toHaveProperty('name', expect.any(String));
+          expect(body).toHaveProperty('description', expect.any(String));
+          expect(body).toHaveProperty('category', expect.any(String));
+          expect(body).toHaveProperty('price', expect.any(Number));
+          expect(body).toHaveProperty('stock', expect.any(Number));
+          expect(body).toHaveProperty('image_url', expect.any(String));
+          expect(body).toHaveProperty('UserId', expect.any(Number));
+          done();
+        })
+        .catch(err => {
+          done(err)
+        });
+    }, 50000)
+  })
+
+
 })
