@@ -5,7 +5,8 @@ const jwt = require('jsonwebtoken')
 class Controller {
   static register(req, res, next) {
 
-  let { name, email, password } = req.body
+  let { name, email, password, roles } = req.body
+
   if(!email) { email = '' }  //handling if email is undefined
 
     User.findOne({
@@ -18,7 +19,8 @@ class Controller {
       return User.create({
         name,
         email,
-        password
+        password,
+        roles
       })
       .then(newUser => {
         res.status(201).json(newUser)
@@ -69,7 +71,7 @@ class Controller {
     const { UserId } = req.user
     const { name, description, category , price, stock, image_url } = req.body
     if(price <= 0 || stock <= 0) {
-      next({status: 400, message: "Price and stock must greater than 0"})
+      next({status: 400, message: "Price and Stock must not be below 0"})
     }
     Product.create({
       name,
@@ -116,23 +118,25 @@ class Controller {
   }
 
   static updateProduct(req, res, next) {
-    let id = req.params.id
-    const { UserId } = req.user
-    const { name, description, category , price, stock } = req.body
+    let id = Number(req.params.id)
+    const { UserId, roles } = req.user
+    const { name, description, category , price, stock, image_url } = req.body
     if(price <= 0 || stock < 0) {
       next({status: 400, message: "Price must greater than 0 and stock can't be minus"})
     }
     const dataUpdate = {
+      id,
       name,
       description,
       category,
       price,
       stock,
-      UserId
+      image_url,
     }
 
     Product.findByPk(id)
     .then(isFound => {
+      console.log(isFound)
       if(!isFound) {
         next({ status: 404, message: "Product not found"})
       }
@@ -141,7 +145,10 @@ class Controller {
       })
     })
     .then(() => {
-      res.status(200).json(dataUpdate)
+      return Product.findByPk(id)
+    })
+    .then(updatedProduct => {
+      res.status(200).json(updatedProduct)
     })
     .catch(err => {
       next(err)
