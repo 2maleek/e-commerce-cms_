@@ -51,7 +51,9 @@ module.exports = (sequelize, DataTypes) => {
         return hash(user.password)
         .then(encrypted => {
           user.password = encrypted
-          user.roles = 'admin'
+          if(!user.roles){
+            user.roles = 'admin'
+          }
         })
       }
     },
