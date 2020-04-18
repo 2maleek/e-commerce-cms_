@@ -78,9 +78,9 @@ export default new Vuex.Store({
       })
     },
     updateProduct({commit, state}, data) {
-      // const id = data.id
-      // const payload = data.payload
-      console.log('id di store' + id)
+      const id = data.id
+      const payload = data.payload
+      // console.log('id di store' + id)
       axios({
         method: 'put',
         url: `/products/${id}`,
