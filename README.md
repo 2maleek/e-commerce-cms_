@@ -1,6 +1,6 @@
 # e-commerce-cms
 Content Management System for E-Commerce
-* RESTful endpoint for task's CRUD operation
+* RESTful endpoint for product's CRUD operation
 * JSON formatted response
 
 &nbsp;
@@ -107,9 +107,9 @@ _Response (500 - Internal Server Error)_
 }
 ```
 
-### POST /tasks
+### POST /products
 
-> Create new task
+> Create new product
 
 _Request Header_
 ```
@@ -166,9 +166,9 @@ _Response (500 - Internal Server Error)_
 }
 ```
 
-### GET /tasks
+### GET /products
 
-> Get User's tasks
+> Get User's products
 
 _Request Header_
 ```
@@ -224,9 +224,9 @@ _Response (500 - Internal Server Error)_
 }
 ```
 
-### GET /tasks/:id
+### GET /products/:id
 
-> Get task by task's id
+> Get product by product's id
 
 _Request Header_
 ```
@@ -271,7 +271,7 @@ _Response (403 - Forbidden)_
 _Response (404 - Not Found)_
 ```
 {
-  "message": "task not found! "
+  "message": "product not found! "
 }
 ```
 
@@ -283,9 +283,9 @@ _Response (500 - Internal Server Error)_
 ```
 
 
-### PUT /tasks/:id
+### PUT /products/:id
 
-> Update task
+> Update product
 
 _Request Header_
 ```
@@ -337,7 +337,7 @@ _Response (403 - Forbidden)_
 _Response (404 - Not Found)_
 ```
 {
-  "message": "task not found! "
+  "message": "product not found! "
 }
 ```
 _Response (500 - Internal Server Error)_
@@ -349,9 +349,9 @@ _Response (500 - Internal Server Error)_
 
 
 
-### DELETE /tasks/:id
+### DELETE /products/:id
 
-> Update task
+> Update product
 
 _Request Header_
 ```
@@ -396,7 +396,7 @@ _Response (403 - Forbidden)_
 _Response (404 - Not Found)_
 ```
 {
-  "message": "task not found! "
+  "message": "product not found! "
 }
 ```
 _Response (500 - Internal Server Error)_
