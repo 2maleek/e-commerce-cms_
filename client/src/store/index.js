@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import router from '../router';
 import axios from 'axios';
 
 Vue.use(Vuex);
@@ -16,7 +17,7 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    signIn({dispatch, commit, state}, payload) {
+    signIn(context, payload) {
       axios({
         method: 'post',
         url: '/login',
@@ -25,6 +26,7 @@ export default new Vuex.Store({
       .then(response => {
         console.log(response.data)
         localStorage.setItem('access_token', response.data.access_token)
+        router.push('/')
       })
       .catch(err => {
         console.log(err.response)
@@ -38,6 +40,7 @@ export default new Vuex.Store({
       })
       .then(response => {
         console.log(response.data)
+        router.push('/login')
       })
       .catch(err => {
         console.log(err.response)

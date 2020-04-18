@@ -1,51 +1,17 @@
 <template>
   <v-app id="app">
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
-    </v-app-bar>
-
-    <v-content>
-      <router-view />
-      <!-- <HelloWorld/> -->
-    </v-content>
+    <Alert message="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  " />
+    <router-view />
   </v-app>
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld.vue';
+import Alert from './components/Alert.vue';
 
 export default {
-  name: 'App',
-
   components: {
-    // HelloWorld,
+    Alert,
   },
-
-  data: () => ({
-    //
-  }),
+  name: 'App',
 };
 </script>
