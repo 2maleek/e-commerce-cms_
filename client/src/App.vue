@@ -9,9 +9,9 @@
 import Alert from './components/Alert.vue';
 
 export default {
+  name: 'App',
   components: {
     Alert,
   },
-  name: 'App',
 };
 </script>

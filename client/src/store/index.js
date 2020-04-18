@@ -55,6 +55,7 @@ export default new Vuex.Store({
       })
       .then(response => {
         console.log(response.data)
+        state.products.push(response.data)
       })
       .catch(err => {
         console.log(err.response)
@@ -76,7 +77,10 @@ export default new Vuex.Store({
         console.log(err.response)
       })
     },
-    updateProduct({commit, state}, payload, id) {
+    updateProduct({commit, state}, data) {
+      // const id = data.id
+      // const payload = data.payload
+      console.log('id di store' + id)
       axios({
         method: 'put',
         url: `/products/${id}`,
@@ -84,7 +88,9 @@ export default new Vuex.Store({
         data: payload,
       })
       .then(response => {
+        console.log('keedit dari strore')
         console.log(response.data)
+        Object.assign(state.products[index], payload)
       })
       .catch(err => {
         console.log(err.response)

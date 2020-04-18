@@ -1,78 +1,81 @@
 <template>
   <v-app id="inspire">
-    <v-navigation-drawer
-      v-model="drawer"
-      :clipped="$vuetify.breakpoint.lgAndUp"
-      app
-    >
-      <v-list dense>
-        <template v-for="item in items">
-          <v-list-item
-            :key="item.text"
-            link
-          >
-            <v-list-item-action>
-              <v-icon>{{ item.icon }}</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>
-                {{ item.text }}
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </template>
-      </v-list>
-    </v-navigation-drawer>
+    <Navbar> </Navbar>
 
-    <v-app-bar
-      :clipped-left="$vuetify.breakpoint.lgAndUp"
-      app
-      color="blue darken-3"
-      dark
-    >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title
-        style="width: 300px"
-        class="ml-0 pl-4"
-      >
-        <span class="hidden-sm-and-down">E-commerce CMS</span>
-      </v-toolbar-title>
-      <v-text-field
-        flat
-        solo-inverted
-        hide-details
-        prepend-inner-icon="mdi-magnify"
-        label="Search"
-        class="hidden-sm-and-down"
-      />
-      <v-spacer />
-      <v-btn icon>
-        <v-icon>mdi-apps</v-icon>
-      </v-btn>
-      <v-btn icon>
-        <v-icon>mdi-bell</v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        large
-      >
-        <v-avatar
-          size="32px"
-          item
-        >
-          <v-img
-            src="https://cdn.vuetifyjs.com/images/logos/logo.svg"
-            alt="Vuetify"
-          /></v-avatar>
-      </v-btn>
-    </v-app-bar>
     <v-content>
       <v-data-table
         :headers="headers"
-        :items="products"
-        :items-per-page="5"
+        :items="this.$store.state.products"
         class="elevation-1"
-      ></v-data-table>
+      >
+        <template v-slot:top>
+          <v-toolbar flat color="white">
+            <v-toolbar-title>My CRUD</v-toolbar-title>
+            <v-divider
+              class="mx-4"
+              inset
+              vertical
+            ></v-divider>
+            <v-spacer></v-spacer>
+            <v-dialog v-model="dialog" max-width="500px">
+              <template v-slot:activator="{ on }">
+                <v-btn color="primary" dark class="mb-2" v-on="on">New Item</v-btn>
+              </template>
+              <v-card>
+                <v-card-title>
+                  <span class="headline">{{ formTitle }}</span>
+                </v-card-title>
+
+                <v-card-text>
+                  <v-container>
+                    <v-row>
+                      <v-col cols="12" sm="6" md="4">
+                        <v-text-field v-model="editedItem.name" label="Product Name"></v-text-field>
+                      </v-col>
+                      <v-col cols="12" sm="6" md="4">
+                        <v-text-field v-model="editedItem.description" label="Description"></v-text-field>
+                      </v-col>
+                      <v-col cols="12" sm="6" md="4">
+                        <v-text-field v-model="editedItem.category" label="Category"></v-text-field>
+                      </v-col>
+                      <v-col cols="12" sm="6" md="4">
+                        <v-text-field v-model="editedItem.price" label="Price"></v-text-field>
+                      </v-col>
+                      <v-col cols="12" sm="6" md="4">
+                        <v-text-field v-model="editedItem.stock" label="Stocks"></v-text-field>
+                      </v-col>
+                      <v-col cols="12" sm="6" md="4">
+                        <v-text-field v-model="editedItem.image_url" label="Image Url"></v-text-field>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </v-card-text>
+
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
+                  <v-btn color="blue darken-1" text @click="save">Save</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </v-toolbar>
+        </template>
+        <template v-slot:item.actions="{ item }">
+          <v-icon
+            small
+            class="mr-2"
+            @click="editItem(item)"
+          >
+            mdi-pencil
+          </v-icon>
+          <v-icon
+            small
+            @click="deleteItem(item)"
+          >
+            mdi-delete
+          </v-icon>
+        </template>
+      </v-data-table>
     </v-content>
     <v-btn
       bottom
@@ -85,76 +88,17 @@
     >
       <v-icon>mdi-plus</v-icon>
     </v-btn>
-    <v-dialog
-      v-model="dialog"
-      width="70vw"
-    >
-      <v-card>
-        <v-card-title class="grey darken-2">
-          Create contact
-        </v-card-title>
-        <v-container>
-          <v-row class="mx-2">
-            <v-col cols="12">
-              <v-text-field
-                placeholder="Name"
-                v-model="productName"
-              />
-            </v-col>
-            <v-col cols="12">
-              <v-text-field
-                placeholder="Description"
-                v-model="description"
-              />
-            </v-col>
-            <v-col cols="12">
-              <v-text-field
-                placeholder="Category"
-                v-model="category"
-              />
-            </v-col>
-            <v-col cols="12">
-              <v-text-field
-                placeholder="Price"
-                v-model="price"
-              />
-            </v-col>
-            <v-col cols="12">
-              <v-text-field
-                placeholder="Stocks"
-                v-model="stock"
-              />
-            </v-col>
-            <v-col cols="12">
-              <v-text-field
-                placeholder="Image Url"
-                v-model="image_url"
-              />
-            </v-col>
-          </v-row>
-        </v-container>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn
-            text
-            color="primary"
-            @click="dialog = false"
-          >Cancel</v-btn>
-          <v-btn
-            text
-            @click="createProduct"
-          >Save</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+
   </v-app>
 </template>
 
 <script>
+import Navbar from '../components/Navbar.vue';
+
 export default {
   name: 'Home',
-  props: {
-    source: String,
+  components: {
+    Navbar,
   },
   data() {
     return {
@@ -172,29 +116,92 @@ export default {
             { text: 'Category', value: 'category' },
             { text: 'Price', value: 'price' },
             { text: 'Stocks', value: 'stock' },
-            { text: 'Image', value: 'image_url'}
+            { text: 'Image', value: 'image_url'},
+            { text: 'Actions', value: 'actions', sortable: false },
           ],
-      products: this.$store.state.products,
       items: [
         { icon: 'mdi-rhombus-split', text: 'All Products' },
         { icon: 'mdi-rhombus-medium', text: 'Your Product' },
         { icon: 'mdi-help-circle', text: 'Help' },
       ],
+      editedIndex: -1,
+      editedItem: {
+        name: '',
+        description: '',
+        category: '',
+        price: 0,
+        stock: 0,
+        image_url: '',
+      },
+      defaultItem: {
+        name: '',
+        description: '',
+        category: '',
+        price: 0,
+        stock: 0,
+        image_url: '',
+      },
     }
   },
   methods: {
-    createProduct() {
-      const payload = {
-        name: this.productName,
-        description: this.description,
-        category: this.category,
-        price: this.price,
-        stock: this.stock,
-        image_url: this.image_url,
-      }
-      this.$store.dispatch('createProduct', payload)
+    editItem (item) {
+      const id = item.id
+      console.log(item)
+      this.editedIndex = this.$store.state.products.indexOf(item)
+      this.editedItem = Object.assign({}, item)
+      this.dialog = true
+    },
+
+    deleteItem (item) {
+      const id = item.id
+      console.log(item)
+      const index = this.$store.state.products.indexOf(item)
+      this.$store.dispatch('deleteProduct', id)
+      // confirm('Are you sure you want to delete this item?') && this.$store.state.products.splice(index, 1)
+    },
+
+    close () {
       this.dialog = false
-    }
-  }
+      setTimeout(() => {
+        this.editedItem = Object.assign({}, this.defaultItem)
+        this.editedIndex = -1
+      }, 300)
+    },
+
+    save () {
+      //langsungg store ke db trus push hasilnya
+      if (this.editedIndex > -1) {
+        const id = this.editedItem.id
+        console.log('ini edit')
+        console.log( this.editedItem.id)
+        console.log(id)
+        const payload = {
+          name: this.editedItem.name,
+          description: this.editedItem.description,
+          category: this.editedItem.category,
+          price: this.editedItem.price,
+          stock: this.editedItem.stock,
+          image_url: this.editedItem.image_url,
+        }
+        // console.log(payload)
+        // console.log(id)
+        this.$store.dispatch('updateProduct', {payload, id})
+      } else {
+        this.$store.dispatch('createProduct', this.editedItem)
+        console.log('ini create')
+      }
+      this.close()
+    },
+  },
+  computed: {
+    formTitle () {
+      return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+    },
+  },
+  watch: {
+    dialog (val) {
+      val || this.close()
+    },
+  },
 };
 </script>

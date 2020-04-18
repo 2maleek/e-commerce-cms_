@@ -1,5 +1,5 @@
 <template>
-  <vue-app>
+  <div>
     <v-navigation-drawer
       v-model="drawer"
       :clipped="$vuetify.breakpoint.lgAndUp"
@@ -66,7 +66,7 @@
           /></v-avatar>
       </v-btn>
     </v-app-bar>
-  </vue-app>
+  </div>
 </template>
 
 <script>
