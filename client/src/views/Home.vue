@@ -10,7 +10,7 @@
       >
         <template v-slot:top>
           <v-toolbar flat color="white">
-            <v-toolbar-title>My CRUD</v-toolbar-title>
+            <v-toolbar-title>Products</v-toolbar-title>
             <v-divider
               class="mx-4"
               inset
@@ -18,9 +18,6 @@
             ></v-divider>
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog" max-width="500px">
-              <template v-slot:activator="{ on }">
-                <v-btn color="primary" dark class="mb-2" v-on="on">New Item</v-btn>
-              </template>
               <v-card>
                 <v-card-title>
                   <span class="headline">{{ formTitle }}</span>
@@ -29,23 +26,23 @@
                 <v-card-text>
                   <v-container>
                     <v-row>
-                      <v-col cols="12" sm="6" md="4">
+                      <v-col cols="12">
                         <v-text-field v-model="editedItem.name" label="Product Name"></v-text-field>
                       </v-col>
-                      <v-col cols="12" sm="6" md="4">
-                        <v-text-field v-model="editedItem.description" label="Description"></v-text-field>
+                      <v-col cols="12">
+                        <v-textarea v-model="editedItem.description"  auto-grow rows="1" label="Description"></v-textarea>
                       </v-col>
-                      <v-col cols="12" sm="6" md="4">
+                      <v-col cols="12">
                         <v-text-field v-model="editedItem.category" label="Category"></v-text-field>
                       </v-col>
-                      <v-col cols="12" sm="6" md="4">
+                      <v-col cols="12">
                         <v-text-field v-model="editedItem.price" label="Price"></v-text-field>
                       </v-col>
-                      <v-col cols="12" sm="6" md="4">
+                      <v-col cols="12">
                         <v-text-field v-model="editedItem.stock" label="Stocks"></v-text-field>
                       </v-col>
-                      <v-col cols="12" sm="6" md="4">
-                        <v-text-field v-model="editedItem.image_url" label="Image Url"></v-text-field>
+                      <v-col cols="12">
+                        <v-textarea v-model="editedItem.image_url" auto-grow rows="1" label="Image Url"></v-textarea>
                       </v-col>
                     </v-row>
                   </v-container>
@@ -94,6 +91,7 @@
 
 <script>
 import Navbar from '../components/Navbar.vue';
+import alertify from 'alertifyjs';
 
 export default {
   name: 'Home',
@@ -146,18 +144,19 @@ export default {
   methods: {
     editItem (item) {
       const id = item.id
-      console.log(item)
       this.editedIndex = this.$store.state.products.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialog = true
     },
 
     deleteItem (item) {
-      const id = item.id
-      console.log(item)
-      const index = this.$store.state.products.indexOf(item)
-      this.$store.dispatch('deleteProduct', id)
-      // confirm('Are you sure you want to delete this item?') && this.$store.state.products.splice(index, 1)
+      alertify.confirm('Delete product', 'Are you sure ?', () => {
+        const id = item.id
+        const index = this.$store.state.products.indexOf(item)
+        this.$store.dispatch('deleteProduct', {id, index})
+      }, () => {
+        alertify.error('Cancel')
+      });
     },
 
     close () {
@@ -172,9 +171,6 @@ export default {
       //langsungg store ke db trus push hasilnya
       if (this.editedIndex > -1) {
         const id = this.editedItem.id
-        console.log('ini edit')
-        console.log( this.editedItem.id)
-        console.log(id)
         const payload = {
           name: this.editedItem.name,
           description: this.editedItem.description,
@@ -183,12 +179,9 @@ export default {
           stock: this.editedItem.stock,
           image_url: this.editedItem.image_url,
         }
-        // console.log(payload)
-        // console.log(id)
-        this.$store.dispatch('updateProduct', {payload, id})
+        this.$store.dispatch('updateProduct', {payload, id, index: this.editedIndex})
       } else {
         this.$store.dispatch('createProduct', this.editedItem)
-        console.log('ini create')
       }
       this.close()
     },

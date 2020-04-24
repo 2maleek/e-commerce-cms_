@@ -24,7 +24,7 @@
                 <v-spacer />
               </v-toolbar>
               <v-card-text>
-                <v-form @submit.prevent="signIn" id="signIn-form">
+                <v-form v-on:submit="signIn" id="signIn-form">
                   <v-text-field
                     label="Email"
                     type="email"
@@ -51,6 +51,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'Login',
   props: {
@@ -63,13 +65,24 @@ export default {
   },
   methods: {
     signIn() {
-      console.log('kepincit')
       const payload = {
         email: this.email,
         password: this.password
       }
-      this.$store.dispatch('signIn', payload)
-    }
+      axios({
+        method: 'post',
+        url: '/login',
+        data: payload,
+      })
+      .then(response => {
+        alertify.success('Sign in successfully')
+        localStorage.setItem('access_token', response.data.access_token)
+        this.$router.push('/')
+      })
+      .catch(err => {
+        alertify.error(err.response.data.message)
+      })
+    },
   },
 };
 </script>

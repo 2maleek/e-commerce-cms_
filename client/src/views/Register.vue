@@ -70,14 +70,24 @@ export default {
   },
   methods: {
     signUp() {
-      console.log('kepincit Register')
       const payload = {
         name: this.name,
         email: this.email,
         password: this.password,
       }
-      this.$store.dispatch('signUp', payload)
-    }
+      axios({
+        method: 'post',
+        url: '/register',
+        data: payload,
+      })
+      .then(response => {
+        this.$router.push('/login')
+        alertify.success('Sign up successfully')
+      })
+      .catch(err => {
+        alertify.error(err.response.data.message)
+      })
+    },
   },
 };
 </script>

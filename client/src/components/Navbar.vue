@@ -10,6 +10,7 @@
           <v-list-item
             :key="item.text"
             link
+            @click="item.action"
           >
             <v-list-item-action>
               <v-icon>{{ item.icon }}</v-icon>
@@ -47,23 +48,10 @@
       />
       <v-spacer />
       <v-btn icon>
-        <v-icon>mdi-apps</v-icon>
-      </v-btn>
-      <v-btn icon>
         <v-icon>mdi-bell</v-icon>
       </v-btn>
-      <v-btn
-        icon
-        large
-      >
-        <v-avatar
-          size="32px"
-          item
-        >
-          <v-img
-            src="https://cdn.vuetifyjs.com/images/logos/logo.svg"
-            alt="Vuetify"
-          /></v-avatar>
+      <v-btn @click="logout" small color="error">
+        Logout
       </v-btn>
     </v-app-bar>
   </div>
@@ -76,11 +64,26 @@ export default {
     return {
       drawer: null,
       items: [
-        { icon: 'mdi-rhombus-split', text: 'All Products' },
-        { icon: 'mdi-rhombus-medium', text: 'Your Product' },
-        { icon: 'mdi-help-circle', text: 'Help' },
+        { icon: 'mdi-table-large', text: 'Data Table Product', action: this.showDataTable },
+        { icon: 'mdi-rhombus-split', text: 'All Product', action: this.showAllProduct },
+        { icon: 'mdi-rhombus-medium', text: 'My Product', action: this.showMyProduct },
       ],
     };
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem('access_token')
+      this.$router.push('/login')
+    },
+    showAllProduct() {
+      this.$router.push('/products')
+    },
+    showMyProduct() {
+      this.$router.push('/myproducts')
+    },
+    showDataTable() {
+      this.$router.push('/')
+    }
   },
 };
 </script>

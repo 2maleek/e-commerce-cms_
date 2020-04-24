@@ -5,11 +5,14 @@ import axios from 'axios';
 
 Vue.use(Vuex);
 
-axios.defaults.baseURL = 'https://pacific-temple-40055.herokuapp.com';
+// axios.defaults.baseURL = 'https://pacific-temple-40055.herokuapp.com';
+axios.defaults.baseURL = 'http://localhost:3000';
+
 export default new Vuex.Store({
   state: {
     count: 0,
     products: [],
+    myProducts: [],
   },
   mutations: {
     increment(state) {
@@ -17,35 +20,6 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    signIn(context, payload) {
-      axios({
-        method: 'post',
-        url: '/login',
-        data: payload,
-      })
-      .then(response => {
-        console.log(response.data)
-        localStorage.setItem('access_token', response.data.access_token)
-        router.push('/')
-      })
-      .catch(err => {
-        console.log(err.response)
-      })
-    },
-    signUp({commit, state}, payload) {
-      axios({
-        method: 'post',
-        url: '/register',
-        data: payload,
-      })
-      .then(response => {
-        console.log(response.data)
-        router.push('/login')
-      })
-      .catch(err => {
-        console.log(err.response)
-      })
-    },
     createProduct({commit, state}, payload) {
       axios({
         method: 'post',
@@ -54,11 +28,11 @@ export default new Vuex.Store({
         data: payload,
       })
       .then(response => {
-        console.log(response.data)
         state.products.push(response.data)
+        alertify.success('Create successfully')
       })
       .catch(err => {
-        console.log(err.response)
+        alertify.error(err.response.data.message)
       })
     },
     findAllProduct({commit, state}) {
@@ -68,18 +42,29 @@ export default new Vuex.Store({
         headers: {'access_token': localStorage.getItem('access_token')}
       })
       .then(response => {
-        console.log('masuk find all')
-        console.log(response)
         state.products = response.data
       })
       .catch(err => {
-        console.log('masuk error')
-        console.log(err.response)
+        alertify.error(err.response.data.message)
+      })
+    },
+    findMyProduct({commit, state}) {
+      axios({
+        method: 'get',
+        url: '/products/user',
+        headers: {'access_token': localStorage.getItem('access_token')}
+      })
+      .then(response => {
+        state.myProducts = response.data
+      })
+      .catch(err => {
+        alertify.error(err.response.data.message)
       })
     },
     updateProduct({commit, state}, data) {
       const id = data.id
       const payload = data.payload
+      const index = data.index
       // console.log('id di store' + id)
       axios({
         method: 'put',
@@ -88,25 +73,27 @@ export default new Vuex.Store({
         data: payload,
       })
       .then(response => {
-        console.log('keedit dari strore')
-        console.log(response.data)
-        Object.assign(state.products[index], payload)
+        Object.assign(state.products[index], response.data)
+        alertify.success('Update successfully')
       })
       .catch(err => {
-        console.log(err.response)
+        alertify.error(err.response.data.message)
       })
     },
-    deleteProduct({commit, state}, id) {
+    deleteProduct({commit, state}, data) {
+      const id = data.id
+      const index = data.index
       axios({
         method: 'delete',
         url: `/products/${id}`,
         headers: { 'access_token': localStorage.getItem('access_token') },
       })
       .then(response => {
-        console.log(response.data)
+        state.products.splice(index, 1)
+        alertify.success('delete successfully')
       })
       .catch(err => {
-        console.log(err.response)
+        alertify.error(err.response.data.message)
       })
     }
   },
