@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "test": "jest products.test.js --detectOpenHandles --runInBand --forceExit",
+    "test": "jest --detectOpenHandles --runInBand --forceExit",
     "dev": "nodemon app.js"
   },
   "keywords": [],

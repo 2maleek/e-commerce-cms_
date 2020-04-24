@@ -14,7 +14,7 @@ class Controller {
     })
     .then(isFound => {
       if(isFound) {
-        next({ status: 400, message: "Email already registered" })
+        throw{ status: 400, message: "Email already registered" }
       }
       return User.create({
         name,
@@ -43,7 +43,7 @@ class Controller {
     })
     .then(isFound => {
       if(!isFound) {
-        next({ status: 404, message: "Email not registered" })
+        throw{ status: 404, message: "Email not registered" }
       }
       UserId = isFound.id
       name = isFound.name
@@ -52,7 +52,7 @@ class Controller {
     })
     .then(result => {
       if(!result){
-        next({ status: 400, message: "Password is wrong"})
+        throw{ status: 400, message: "Password is wrong"}
       }
       let access_token = jwt.sign({
         UserId,
@@ -94,7 +94,23 @@ class Controller {
     Product.findAll()
     .then(products => {
       if(!products) {
-        next({ status: 404, message: "There are no products"})
+        throw{ status: 404, message: "There are no products"}
+      }
+      res.status(200).json(products)
+    })
+    .catch(err => {
+      next(err)
+    })
+  }
+
+  static findUserProducts(req, res, next) {
+    const { UserId } = req.user
+    Product.findAll({
+      where: { UserId }
+    })
+    .then(products => {
+      if(!products) {
+        throw{ status: 404, message: "There are no products"}
       }
       res.status(200).json(products)
     })
