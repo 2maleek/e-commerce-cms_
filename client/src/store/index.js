@@ -5,8 +5,8 @@ import axios from 'axios';
 
 Vue.use(Vuex);
 
-// axios.defaults.baseURL = 'https://pacific-temple-40055.herokuapp.com';
-axios.defaults.baseURL = 'http://localhost:3000';
+axios.defaults.baseURL = 'https://pacific-temple-40055.herokuapp.com';
+// axios.defaults.baseURL = 'http://localhost:3000';
 
 export default new Vuex.Store({
   state: {
