@@ -1,5 +1,12 @@
 # e-commerce-cms
-Content Management System for E-Commerce
+
+#### API Demo:https://pacific-temple-40055.herokuapp.com
+#### APP Demo :https://e-commerce-cms-2.web.app
+> Demo User => email: malik@mail.com  |   password:123
+
+&nbsp;
+
+Content Management System for E-Commerce (Admin User)
 * RESTful endpoint for product's CRUD operation
 * JSON formatted response
 
@@ -18,9 +25,9 @@ not needed
 _Request Body_
 ```
 {
-  "name": "<your name>",
-  "email": "<your email>",
-  "password": "<your password>"
+  "name": <your name>,
+  "email": <your email>,
+  "password": <your password>
 }
 ```
 
@@ -28,12 +35,12 @@ _Request Body_
 _Response (201 - Created)_
 ```
 {
-  "id": 6,
-  "name": "<your name>",
-  "email": "<your email >",
-  "password": "<your encrypted password>",
-  "updatedAt": "2020-04-06T15:41:15.278Z",
-  "createdAt": "2020-04-06T15:41:15.278Z"
+  "id": <id>,
+  "name": <your name>,
+  "email": <your email >,
+  "password": <your encrypted password>,
+  "updatedAt": <date>,
+  "createdAt": <date>
 }
 ```
 
@@ -71,8 +78,8 @@ not needed
 _Request Body_
 ```
 {
-  "email": "<your email>",
-  "password": "<your password>"
+  "email": <your email>,
+  "password": <your password>
 }
 ```
 
@@ -80,7 +87,7 @@ _Request Body_
 _Response (200 - Ok)_
 ```
 {
-  "access_token": "<your access token>"
+  "access_token": <your access token>
 }
 ```
 
@@ -89,7 +96,7 @@ _Response (200 - Ok)_
 _Response (400 - Bad Request)_
 ```
 [
-  "message": "<detail message>"
+  "message": <detail message>
 ]
 ```
 
@@ -114,16 +121,16 @@ _Response (500 - Internal Server Error)_
 _Request Header_
 ```
 {
-  "access_token": "<your access token>"
+  "access_token": <your access token>
 }
 ```
 
 _Request Body_
 ```
 {
-  "name": "<product name>",
-  "description": "<product description>",
-  "category": "<product category>",
+  "name": <product name>,
+  "description": <product description>,
+  "category": <product category>,
   "price": <product price>,
   "stock": <product stock>,
   "image_url": <product image>,
@@ -135,9 +142,9 @@ _Response (201 - Created)_
 ```
 {
   "id": <product id>,
-  "name": "<product name>",
-  "description": "<product description>",
-  "category": "<product category>",
+  "name": <product name>,
+  "description": <product description>,
+  "category": <product category>,
   "price": <product price>,
   "stock": <product stock>,
   "image_url": <product image>,
@@ -173,7 +180,7 @@ _Response (500 - Internal Server Error)_
 _Request Header_
 ```
 {
-  "access_token": "<your access token>"
+  "access_token": <your access token>
 }
 ```
 
@@ -188,9 +195,9 @@ _Response (200 - Ok)_
 [
   {
     "id": <product id>,
-    "name": "<product name>",
-    "description": "<product description>",
-    "category": "<product category>",
+    "name": <product name>,
+    "description": <product description>,
+    "category": <product category>,
     "price": <product price>,
     "stock": <product stock>,
     "image_url": <product image>,
@@ -198,9 +205,9 @@ _Response (200 - Ok)_
   },
   {
     "id": <product id>,
-    "name": "<product name>",
-    "description": "<product description>",
-    "category": "<product category>",
+    "name": <product name>,
+    "description": <product description>,
+    "category": <product category>,
     "price": <product price>,
     "stock": <product stock>,
     "image_url": <product image>,
@@ -231,7 +238,7 @@ _Response (500 - Internal Server Error)_
 _Request Header_
 ```
 {
-  "access_token": "<your access token>"
+  "access_token": <your access token>
 }
 ```
 
@@ -245,9 +252,9 @@ _Response (200 - Ok)_
 ```
 {
   "id": <product id>,
-  "name": "<product name>",
-  "description": "<product description>",
-  "category": "<product category>",
+  "name": <product name>,
+  "description": <product description>,
+  "category": <product category>,
   "price": <product price>,
   "stock": <product stock>,
   "image_url": <product image>,
@@ -290,16 +297,16 @@ _Response (500 - Internal Server Error)_
 _Request Header_
 ```
 {
-  "access_token": "<your access token>"
+  "access_token": <your access token>
 }
 ```
 
 _Request Body_
 ```
 {
-  "name": "<product name>",
-  "description": "<product description>",
-  "category": "<product category>",
+  "name": <product name>,
+  "description": <product description>,
+  "category": <product category>,
   "price": <product price>,
   "stock": <product stock>,
   "image_url": <product image>,
@@ -311,9 +318,9 @@ _Response (200 - OK)_
 ```
 {
   "id": <product id>,
-  "name": "<product name>",
-  "description": "<product description>",
-  "category": "<product category>",
+  "name": <product name>,
+  "description": <product description>,
+  "category": <product category>,
   "price": <product price>,
   "stock": <product stock>,
   "image_url": <product image>,
@@ -356,7 +363,7 @@ _Response (500 - Internal Server Error)_
 _Request Header_
 ```
 {
-  "access_token": "<your access token>"
+  "access_token": <your access token>
 }
 ```
 
@@ -370,9 +377,9 @@ _Response (200 - Ok)_
 ```
 {
   "id": <product id>,
-  "name": "<product name>",
-  "description": "<product description>",
-  "category": "<product category>",
+  "name": <product name>,
+  "description": <product description>,
+  "category": <product category>,
   "price": <product price>,
   "stock": <product stock>,
   "image_url": <product image>,
