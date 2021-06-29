@@ -1,6 +1,6 @@
 # e-commerce-cms
 
-#### API Demo:https://pacific-temple-40055.herokuapp.com
+#### API Demo:https://server-e-commerce-cms.herokuapp.com/
 #### APP Demo :https://e-commerce-cms-2.web.app
 > Demo User => email: malik@mail.com  |   password:123
 
