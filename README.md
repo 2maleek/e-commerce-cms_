@@ -1,7 +1,7 @@
 # e-commerce-cms
 
 #### API Demo:https://server-e-commerce-cms.herokuapp.com/
-#### APP Demo :https://e-commerce-cms-2.web.app
+#### APP Demo :https://e-commerce-cms.web.app
 > Demo User => email: malik@mail.com  |   password:123
 
 &nbsp;
